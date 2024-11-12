@@ -4,29 +4,20 @@
 #set page(margin: (x: 1cm, y: 1cm))
 
 #let results = csv("./data/totemiq_inventory_a4.csv")
-
 #let results = results.slice(1)
 
-
-
-
 #let seq = "abcdefghijklmnopqrstuvwxyz0123456789".split("").slice(1, 38).map(it => raw(it))
-
 #let rng = gen-rng(1728097114550)
+
 #let choices = ()
-
 #let codes = ()
-
-
-
 
 #let results = results.filter((row)=>row.at(2).len() > 0). map((row) => {
     let design_name = lower(row.at(0))
     design_name = design_name.replace(" ", "-")
 
     let product_name = lower(row.at(1))
-
-    let total_copies = int(row.at(2)) // int(.first())
+    let total_copies = int(row.at(2))
 
     (
         design_name: design_name,
@@ -34,7 +25,6 @@
         total_copies: total_copies
     )
 })
-
 
 #for r in results {
     for i in range(r.total_copies) {
@@ -49,16 +39,6 @@
         ))
     }
 }
-
-
-// #for i in range(12) {
-//     (rng, choices) = choice(rng, seq, size: 16)
-
-//     let uuid = choices.map(it => it.text).join("")
-
-//     codes.push(uuid)
-// }
-
 
 #let generate_items = codes.map((code) => {
     let qr_url = "https://totemiq.art/product/" + code.uuid
