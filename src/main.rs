@@ -9,6 +9,7 @@ struct InputRow {
     artwork_category: String,
     artwork_image_path: String,
     batch_production: u32,
+    orientation: String,
 }
 
 #[derive(Debug, Serialize, Clone)]
@@ -17,6 +18,7 @@ struct OutputRow {
     artwork_name: String,
     artwork_category: String,
     artwork_image_path: String,
+    orientation: String,
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
@@ -41,14 +43,13 @@ fn main() -> Result<(), Box<dyn Error>> {
                 artwork_name: record.artwork_name.clone(),
                 artwork_category: record.artwork_category.clone(),
                 artwork_image_path: record.artwork_image_path.clone(),
+                orientation: record.orientation.clone(),
             };
 
             output_csv.serialize(row)?;
         }
 
         println!();
-
-        // println!("{:?}", record);
     }
 
     output_csv.flush()?;
