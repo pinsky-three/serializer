@@ -9,7 +9,7 @@
 
 #let rows = csv(csv_file)
 
-#let items = rows.slice(1).chunks(4).map((chunk)=> {
+#let items = rows.slice(1).filter(el => el.at(4) == "horizontal").chunks(4).map((chunk)=> {
   let artwork =  chunk.map((row)=> {
     rect(
       width: 100%,
@@ -52,7 +52,7 @@
   )
 })
 
-#items.at(2)
+#items.at(0)
 
 // #let vertical_items = range(4).map((i)=> {
 //     rect(
