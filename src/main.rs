@@ -22,11 +22,10 @@ struct OutputRow {
 fn main() -> Result<(), Box<dyn Error>> {
     let output_path = "output/output.csv";
 
-    // check if exists, if not create one considering the folders depth
     std::fs::create_dir_all(std::path::Path::new(output_path).parent().unwrap())?;
 
     let mut input_csv = csv::Reader::from_path("input/input.csv")?;
-    let mut output_csv = csv::Writer::from_path("output/output.csv")?;
+    let mut output_csv = csv::Writer::from_path(output_path)?;
 
     for result in input_csv.deserialize() {
         let record: InputRow = result?;
