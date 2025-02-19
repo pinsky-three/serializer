@@ -9,7 +9,6 @@
 
 
 #let csv_file = "../output/output.csv"
-#let image_path = "assets/print_2.png"
 
 
 #let rows = csv(csv_file)
@@ -23,7 +22,7 @@
       )[
           #align(center + top)[
             #pad(top: 0.7cm, bottom: 0cm)[
-              #image(image_path, width: 85%, fit: "contain")
+              #image(row.at(3), width: 85%, fit: "contain")
             ]
             
             #pad(left: 1.58cm, right: 1.58cm, top: -.2cm)[
@@ -33,7 +32,7 @@
                     dir: ltr,
                     spacing: 0.4cm,
                     align(start + horizon)[
-                      #text("01951afb-3e41-7449-bf7d-b3218cc9e32f", 
+                      #text(row.at(0), 
                         fill: gray, 
                         size: 0.2cm, font: "Petit Formal Script")
                     ],
@@ -57,7 +56,7 @@
   )
 })
 
-#items.at(0)
+#items.at(2)
 
 // #let vertical_items = range(4).map((i)=> {
 //     rect(
