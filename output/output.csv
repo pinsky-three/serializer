@@ -1,9 +1,9 @@
 id,artwork_name,artwork_category,artwork_image_path,orientation
-01952053-ac14-7160-bd7a-78a606a95a62,artwork_1,colonial,../templates/assets/print_1.jpg,vertical
-01952053-ac14-7160-bd7a-78b65f45c67e,artwork_1,colonial,../templates/assets/print_1.jpg,vertical
-01952053-ac14-7160-bd7a-78c5da6f4423,artwork_1,colonial,../templates/assets/print_1.jpg,vertical
-01952053-ac14-7160-bd7a-78d686a87f68,artwork_1,colonial,../templates/assets/print_1.jpg,vertical
-01952053-ac14-7160-bd7a-78e5a59c3833,artwork_2,precolombino,../templates/assets/print_2.png,horizontal
-01952053-ac14-7160-bd7a-78fbc333c0c5,artwork_2,precolombino,../templates/assets/print_2.png,horizontal
-01952053-ac14-7160-bd7a-79089b4bc81f,artwork_2,precolombino,../templates/assets/print_2.png,horizontal
-01952053-ac14-7160-bd7a-79164755f126,artwork_2,precolombino,../templates/assets/print_2.png,horizontal
+01952072-66e9-7533-ab1b-a8b228679f13,artwork_1,colonial,../templates/assets/print_1.png,vertical
+01952072-66e9-7533-ab1b-a8ca1c556f66,artwork_1,colonial,../templates/assets/print_1.png,vertical
+01952072-66e9-7533-ab1b-a8d0e8478bbd,artwork_1,colonial,../templates/assets/print_1.png,vertical
+01952072-66e9-7533-ab1b-a8e8177ba534,artwork_1,colonial,../templates/assets/print_1.png,vertical
+01952072-66e9-7533-ab1b-a8f9940a3a36,artwork_2,precolombino,../templates/assets/print_2.png,horizontal
+01952072-66e9-7533-ab1b-a9059f08a2b5,artwork_2,precolombino,../templates/assets/print_2.png,horizontal
+01952072-66e9-7533-ab1b-a91bef3073d5,artwork_2,precolombino,../templates/assets/print_2.png,horizontal
+01952072-66e9-7533-ab1b-a92bed4b38f8,artwork_2,precolombino,../templates/assets/print_2.png,horizontal
