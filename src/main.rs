@@ -1,3 +1,7 @@
+use uuid::Uuid;
+
 fn main() {
-    println!("Hello, world!");
+    let uuid = Uuid::now_v7();
+
+    println!("Hello, world! {}", uuid);
 }
