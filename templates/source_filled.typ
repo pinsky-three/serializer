@@ -1,45 +1,44 @@
 #set page(
   margin: (x: 0cm, y: 0cm),
   
-  paper: "a5",
+  paper: "a6",
   flipped: false,
 )
 
 #let csv_file = "../output/output.csv"
 
 #let rows = csv(csv_file)
-#let image_width = state("i_width", 0pt)
-#let image_multiplier = 85%;
+#let image_multiplier = 100%;
 
-#let artwork =  rows.slice(1).filter(el => el.at(5) == "vertical" and el.at(4) == "A5").map((row)=> {
+#let artwork =  rows.slice(1).filter(el => el.at(5) == "vertical" and el.at(4) == "A6").map((row)=> {
     rect(
         width: 100%,
         height: 100%,
         inset: 0cm,
       )[
-        #align(center + horizon)[
+        #align(center)[
           #stack( 
             dir: ttb,
             rect(stroke: 0.0cm, inset: 0cm)[
-                #image(row.at(3), width: image_multiplier, fit: "contain") // <image>
+                #image(row.at(3), width: image_multiplier, fit: "cover") // <image>
             ],
-            pad(x: (100%-image_multiplier)/2, top: 0.3cm)[
-              #rect(width: 100%, stroke: 0.0cm, inset: .2cm, fill: white)[
+            pad(x: .2cm, top: -1.8cm)[
+              #rect(width: 100%, stroke: 0.0cm, inset: .2cm, )[
                 #align(end + horizon)[
                   #stack(
                     dir: ltr,
-                    align(start + horizon)[
-                      #text(row.at(0), 
-                        fill: gray, 
-                        size: 0.32cm,
-                      )
-                    ],
+                    // align(start + horizon)[
+                    //   #text(row.at(0), 
+                    //     fill: white, 
+                    //     size: 0.32cm,
+                    //   )
+                    // ],
                     context {
                       stack(
-                        dir: ltr,
+                        dir: ttb,
                         spacing: 0.05cm,
                         image("assets/signature.png", width: page.width*0.07),
-                        image("assets/totemiq_signature.svg", width: page.width*0.07),
+                        image("assets/totemiq_signature_white.svg", width: page.width*0.07),
                       )
                     }
                     
@@ -48,7 +47,6 @@
               ]
             ]
           )
-          
         ]
       ]
   })
