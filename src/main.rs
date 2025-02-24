@@ -9,6 +9,7 @@ struct InputRow {
     artwork_name: String,
     artwork_category: String,
     artwork_image_path: String,
+    artwork_format: String,
     batch_production: u32,
     orientation: String,
 }
@@ -19,6 +20,7 @@ struct OutputRow {
     artwork_name: String,
     artwork_category: String,
     artwork_image_path: String,
+    artwork_format: String,
     orientation: String,
 }
 
@@ -99,6 +101,7 @@ fn main() -> Result<(), Box<dyn Error>> {
                     .unwrap()
                     .to_string(),
                 orientation: record.orientation.clone(),
+                artwork_format: record.artwork_format.clone(),
             };
 
             if file_image_path.extension().unwrap() == "tif" {
