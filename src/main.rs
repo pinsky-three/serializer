@@ -111,7 +111,7 @@ fn main() -> Result<(), Box<dyn Error>> {
             output_csv.serialize(row)?;
         }
 
-        println!();
+        // println!();
     }
 
     output_csv.flush()?;

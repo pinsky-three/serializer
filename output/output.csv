@@ -1,22 +1,22 @@
-id,artwork_name,artwork_category,artwork_image_path,orientation
-01953916-a1d3-79a1-ab9c-cc2e2ee85452,Majeño,actividades_ancestrales,../output/Copia de Copia de 4 (11).jpg,vertical
-01953916-a409-7ee1-b797-38912601f2f2,Solsticio 2,astronomia_inca,../output/Copia de 30.png,vertical
-01953916-aad9-76a0-9a73-892d06672046,La Mestiza,arte_popular_andino,../output/Copia de Copia de 32.jpg,vertical
-01953916-b72d-7b22-9900-bf94614b2fab,Cucasaru,actividades_ancestrales,../output/Copia de Copia de 23.jpg,horizontal
-01953916-c1ed-7c72-94df-524e548b1612,Tocapus,arte_inca,../output/Copia de Copia de Print 1.jpg,vertical
-01953916-ca77-7f43-afe7-fa33cb4af572,Majeño 3d,actividades_ancestrales,../output/Copia de 27.jpg,vertical
-01953916-cd92-7262-94cd-caac4465949e,Qhapaq Qolla 3d,actividades_ancestrales,../output/Copia de 29.jpg,vertical
-01953916-d0a0-7af1-86a7-bd1bc25132be,El Sueño de Carmen,astronomia_inca,../output/Copia de Copia de 18.jpg,vertical
-01953916-d344-7150-8ab7-b31b27e0708c,La diversidad nos hace humanos,arte_popular_andino,../output/Copia de 4.jpg,vertical
-01953916-d560-7ac1-9e16-f800fff4e7d7,Tocapus,arte_inca,../output/Copia de Print 1.jpg,vertical
-01953916-d7af-7b93-98e6-acd3e5a63802,Ukuko fondo noche,actividades_ancestrales,../output/Copia de 24.png,vertical
-01953916-d9fc-7180-8594-c68ea19b1acc,Qhapaq Qolla fondo noche,actividades_ancestrales,../output/Copia de 25.png,vertical
-01953916-dd80-7c11-a688-4124ff62d7da,Qhapaq Qolla en amarillo,actividades_ancestrales,../output/Copia de 8.jpg,vertical
-01953916-ee46-7211-8d23-3423e21710c1,Monalisa Mestiza,arte_popular_andino,../output/Copia de Copia de 20.jpg,vertical
-01953916-f294-7f80-b8c9-8edf1a5bf991,Tinkus,actividades_ancestrales,../output/Copia de Copia de 2.jpg,vertical
-01953917-0513-7a90-9700-898cb89bea35,Ukuko en amarillo,actividades_ancestrales,../output/Copia de Copia de 7.jpg,vertical
-01953917-07cf-7853-86bf-b4c15dad6453,Constelaciones Oscuras,astronomia_inca,../output/Copia de Copia de constelaciones oscuras.png,horizontal
-01953917-0a4b-7570-835f-8e7e2280aa23,Magnolia,arte_popular_andino,../output/Copia de 7.jpg,vertical
-01953917-0c93-7622-b2f6-29819d9e00ac,Colonial 2,arte_colonial,../output/Colonial 2.jpg,horizontal
-01953917-0fd2-7710-bd23-6d16ea49b4ae,Colonial 3,arte_colonial,../output/Colonial 6.jpg,horizontal
-01953917-11fb-7e40-86bf-461481bb5e08,Colonial 4,arte_colonial,../output/Colonial 7.jpg,horizontal
+id,artwork_name,artwork_category,artwork_image_path,artwork_format,orientation
+0195395f-3f06-72f2-a43e-dda13860acf6,Majeño,actividades_ancestrales,../output/Copia de Copia de 4 (11).jpg,A5,vertical
+0195395f-4169-7672-8f56-9101aefd853b,Solsticio 2,astronomia_inca,../output/Copia de 30.png,A5,vertical
+0195395f-4775-7f50-a040-01580558a1ee,La Mestiza,arte_popular_andino,../output/Copia de Copia de 32.jpg,A5,vertical
+0195395f-53ea-72b0-ad28-a3f6c8992312,Cucasaru,actividades_ancestrales,../output/Copia de Copia de 23.jpg,A5,horizontal
+0195395f-5c4e-74e0-9fa5-3fa599f37980,Tocapus,arte_inca,../output/Copia de Copia de Print 1.jpg,A5,vertical
+0195395f-62ca-75d0-a7d9-8bc33806bb7d,Majeño 3d,actividades_ancestrales,../output/Copia de 27.jpg,A4,vertical
+0195395f-64d3-71b2-84fa-1544b85a9f28,Qhapaq Qolla 3d,actividades_ancestrales,../output/Copia de 29.jpg,A4,vertical
+0195395f-66db-70b0-b59a-f20ff3ff3111,El Sueño de Carmen,astronomia_inca,../output/Copia de Copia de 18.jpg,A4,vertical
+0195395f-6905-7d11-b3d2-6a5cd7e81d18,La diversidad nos hace humanos,arte_popular_andino,../output/Copia de 4.jpg,A4,vertical
+0195395f-6afa-7840-b5d4-b1291f6b14da,Tocapus,arte_inca,../output/Copia de Print 1.jpg,A4,vertical
+0195395f-6d0b-7353-8265-76cefd78d1f1,Ukuko fondo noche,actividades_ancestrales,../output/Copia de 24.png,A4,vertical
+0195395f-6f32-7a60-a7f4-61beefee7cff,Qhapaq Qolla fondo noche,actividades_ancestrales,../output/Copia de 25.png,A4,vertical
+0195395f-715e-7ce2-afd3-6be4a8b8618a,Qhapaq Qolla en amarillo,actividades_ancestrales,../output/Copia de 8.jpg,A4,vertical
+0195395f-8005-7963-9956-cb8cbec5c88f,Monalisa Mestiza,arte_popular_andino,../output/Copia de Copia de 20.jpg,A4,vertical
+0195395f-8210-7381-b586-2020f5e270e2,Tinkus,actividades_ancestrales,../output/Copia de Copia de 2.jpg,A4,vertical
+0195395f-84a0-7f50-810e-492c433acc63,Ukuko en amarillo,actividades_ancestrales,../output/Copia de Copia de 7.jpg,A4,vertical
+0195395f-869e-7a43-b7a9-5539fcbf9cfb,Constelaciones Oscuras,astronomia_inca,../output/Copia de Copia de constelaciones oscuras.png,A4,horizontal
+0195395f-88bc-7dc1-a8eb-85931fedbd3f,Magnolia,arte_popular_andino,../output/Copia de 7.jpg,A4,vertical
+0195395f-8adb-7b41-86c1-427b42853226,Colonial 2,arte_colonial,../output/Colonial 2.jpg,A4,horizontal
+0195395f-8d77-7dc2-a0c5-034e2e2ce5d5,Colonial 3,arte_colonial,../output/Colonial 6.jpg,A4,horizontal
+0195395f-9010-7bd2-b8bf-06d74033726a,Colonial 4,arte_colonial,../output/Colonial 7.jpg,A4,horizontal
