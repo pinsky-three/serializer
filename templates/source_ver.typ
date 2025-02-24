@@ -19,10 +19,6 @@
       inset: 0cm,
     )[
       #align(center + top)[
-        // #context[
-        //   #let a = (page.width - query(<image>).at(0).width) / 2
-        //   #image_width.update(a)
-        // ]
         #stack( 
           dir: ttb,
           pad(top: 0.7cm, bottom: 0cm)[
