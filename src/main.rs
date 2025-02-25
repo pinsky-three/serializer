@@ -48,8 +48,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     if credentials.are_valid() {
         credentials.refresh().unwrap();
     } else {
-        let credentials =
-            Credentials::from_client_secrets_file(client_secrets_path, &scopes).unwrap();
+        credentials = Credentials::from_client_secrets_file(client_secrets_path, &scopes).unwrap();
         credentials.store(stored_credentials).unwrap();
     }
 
