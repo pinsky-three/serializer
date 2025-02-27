@@ -26,10 +26,11 @@ struct OutputRow {
 
 fn main() -> Result<(), Box<dyn Error>> {
     let output_path = "output/output.csv";
+    let input_path = "input/input.csv";
 
     std::fs::create_dir_all(std::path::Path::new(output_path).parent().unwrap())?;
 
-    let mut input_csv = csv::Reader::from_path("input/input.csv")?;
+    let mut input_csv = csv::Reader::from_path(input_path)?;
     let mut output_csv = csv::Writer::from_path(output_path)?;
 
     let client_secrets_path = "credentials/client_secret_199454688484-3g32tp6dde29irgn8m0b1a5d6fpfpt9j.apps.googleusercontent.com.json";
@@ -52,38 +53,34 @@ fn main() -> Result<(), Box<dyn Error>> {
         credentials.store(stored_credentials).unwrap();
     }
 
-    // let mut stored_credentials = Credentials::from_file(client_secrets_path, &scopes).unwrap();
-
-    // if !stored_credentials.are_valid() {
-    //     stored_credentials.refresh().unwrap();
-
-    //     stored_credentials.store(client_secrets_path).unwrap();
-    // }
-
     let drive = Drive::new(&credentials);
 
     for result in input_csv.deserialize() {
         let record: InputRow = result?;
 
         for _i in 0..record.batch_production {
-            // println!("downloading image: {}", record.artwork_image_path);
-
-            // extract "1pyOzBeKhHDnI7Baf8RRPDLEgA2sJXGhT" from "https://drive.google.com/file/d/1pyOzBeKhHDnI7Baf8RRPDLEgA2sJXGhT/view?usp=drive_link"
+            // extract "1pyOzBeKhHDnI7Baf8RRPDLEgA2sJXGhT"
+            // from "https://drive.google.com/file/d/1pyOzBeKhHDnI7Baf8RRPDLEgA2sJXGhT/view?usp=drive_link"
 
             let id = record.artwork_image_path.split("/").nth(5).unwrap();
 
             let file = drive.files.get(id).execute().unwrap();
-
-            // .save_to("output/".to_string() + &record.artwork_name.replace(" ", "_") + ".jpg")
-            // println!("file: {:?}", file.name);
 
             let file_name = file.name.unwrap();
 
             let file_image_path = std::path::Path::new("output/").join(&file_name);
 
             if !file_image_path.exists() {
-                let file_data = drive.files.get_media(id).execute().unwrap();
-                std::fs::write(file_image_path.clone(), file_data).unwrap();
+                let res = drive
+                    .files
+                    .get_media(id)
+                    .save_to(file_image_path.clone())
+                    .execute();
+
+                if res.is_err() {
+                    println!("Error downloading file: {:?}", res.err());
+                    continue;
+                }
             }
 
             let uuid = Uuid::now_v7();

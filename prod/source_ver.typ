@@ -1,7 +1,7 @@
 #set page(
   margin: (x: 0cm, y: 0cm),
   
-  paper: "a4",
+  paper: "a5",
   flipped: false,
 )
 
@@ -11,7 +11,7 @@
 #let image_width = state("i_width", 0pt)
 #let image_multiplier = 85%;
 
-#let artwork =  rows.slice(1).filter(el => el.at(5) == "vertical" and el.at(4) == "A4").map((row)=> {
+#let artwork =  rows.slice(1).filter(el => el.at(5) == "vertical" and el.at(4) == "A5").map((row)=> {
     rect(
         width: 100%,
         height: 100%,
@@ -23,7 +23,7 @@
             rect(stroke: 0.0cm, inset: 0cm)[
                 #image(row.at(3), width: image_multiplier, fit: "contain") // <image>
             ],
-            pad(x: (100%-image_multiplier)/2, top: 0.2cm)[
+            pad(x: (100%-image_multiplier)/2, top: 0.3cm)[
               #rect(width: 100%, stroke: 0.0cm, inset: .2cm, fill: white)[
                 #align(end + horizon)[
                   #stack(
