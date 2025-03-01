@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 use std::error::Error;
 use std::path::PathBuf;
 use uuid::Uuid;
+
 #[derive(Debug, Deserialize, Clone)]
 struct InputRow {
     artwork_name: String,
@@ -80,6 +81,17 @@ fn main() -> Result<(), Box<dyn Error>> {
                 if res.is_err() {
                     println!("Error downloading file: {:?}", res.err());
                     continue;
+                }
+
+                let img = image::open(&file_image_path).unwrap();
+                let ratio = img.width() as f32 / img.height() as f32;
+
+                // println!("orientation: {} | ratio: {}", record.orientation, ratio);
+
+                if (record.orientation == "horizontal" && ratio < 1.0)
+                    || (record.orientation == "vertical" && ratio > 1.0)
+                {
+                    img.rotate270().save(&file_image_path).unwrap();
                 }
             }
 
