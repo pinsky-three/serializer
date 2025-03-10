@@ -12,7 +12,7 @@
 
 #let rows = csv(csv_file)
 
-#let batch_size = (1, 20)
+#let batch_size = (1, 84)
 
 #let ids = rows.slice(batch_size.at(0), batch_size.at(1)).map((row)=>{
   row.at(0).trim()
@@ -26,7 +26,7 @@
   text(row.at(1).trim())
 })
 
-#for i in range(0, certificates.len()){
+#for i in range(0, certificates.len()) {
   let qr_url = "https://totemiq.com/certificate/" + ids.at(i)
 
   heading(titles.at(i))
