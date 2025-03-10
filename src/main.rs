@@ -3,26 +3,50 @@ use drive_v3::Drive;
 use serde::{Deserialize, Serialize};
 use std::error::Error;
 use std::path::PathBuf;
+
 use uuid::Uuid;
+
+// #[derive(Debug, Deserialize, Serialize, Clone)]
+// struct ArtworkData {
+//     artwork_name: String,
+//     artwork_category: String,
+//     artwork_image_path: String,
+//     artwork_format: String,
+//     artwork_orientation: String,
+//     artwork_technique_es: String,
+//     artwork_technique_en: String,
+//     artwork_short_description_es: String,
+//     artwork_short_description_en: String,
+// }
 
 #[derive(Debug, Deserialize, Clone)]
 struct InputRow {
+    batch_production: u32,
+
     artwork_name: String,
     artwork_category: String,
     artwork_image_path: String,
     artwork_format: String,
-    batch_production: u32,
-    orientation: String,
+    artwork_orientation: String,
+    artwork_technique_es: String,
+    artwork_technique_en: String,
+    artwork_short_description_es: String,
+    artwork_short_description_en: String,
 }
 
 #[derive(Debug, Serialize, Clone)]
 struct OutputRow {
     id: Uuid,
+
     artwork_name: String,
     artwork_category: String,
     artwork_image_path: String,
     artwork_format: String,
-    orientation: String,
+    artwork_orientation: String,
+    artwork_technique_es: String,
+    artwork_technique_en: String,
+    artwork_short_description_es: String,
+    artwork_short_description_en: String,
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
@@ -88,8 +112,8 @@ fn main() -> Result<(), Box<dyn Error>> {
 
                 // println!("orientation: {} | ratio: {}", record.orientation, ratio);
 
-                if (record.orientation == "horizontal" && ratio < 1.0)
-                    || (record.orientation == "vertical" && ratio > 1.0)
+                if (record.artwork_orientation == "horizontal" && ratio < 1.0)
+                    || (record.artwork_orientation == "vertical" && ratio > 1.0)
                 {
                     img.rotate270().save(&file_image_path).unwrap();
                 }
@@ -101,15 +125,20 @@ fn main() -> Result<(), Box<dyn Error>> {
 
             let row = OutputRow {
                 id: uuid,
-                artwork_name: record.artwork_name.clone(),
-                artwork_category: record.artwork_category.clone(),
+
                 artwork_image_path: PathBuf::from("..")
                     .join(file_image_path.clone())
                     .to_str()
                     .unwrap()
                     .to_string(),
-                orientation: record.orientation.clone(),
+                artwork_name: record.artwork_name.clone(),
+                artwork_category: record.artwork_category.clone(),
                 artwork_format: record.artwork_format.clone(),
+                artwork_orientation: record.artwork_orientation.clone(),
+                artwork_technique_es: record.artwork_technique_es.clone(),
+                artwork_technique_en: record.artwork_technique_en.clone(),
+                artwork_short_description_es: record.artwork_short_description_es.clone(),
+                artwork_short_description_en: record.artwork_short_description_en.clone(),
             };
 
             if file_image_path.extension().unwrap() == "tif" {
