@@ -12,7 +12,8 @@
 
 #let rows = csv(csv_file)
 
-#let batch_size = (1, 10)
+#let batch_size = (1, rows.len())
+// #let batch_size = (1, 10)
 
 #let ids = rows.slice(batch_size.at(0), batch_size.at(1)).map((row)=>{
   row.at(0).trim()
@@ -26,6 +27,14 @@
   text(row.at(1).trim())
 })
 
+#let technique_es = rows.slice(batch_size.at(0), batch_size.at(1)).map((row)=>{
+  text(row.at(6).trim())
+})
+
+#let technique_en = rows.slice(batch_size.at(0), batch_size.at(1)).map((row)=>{
+  text(row.at(7).trim())
+})
+
 #for i in range(0, certificates.len()) {
   let qr_url = "https://totemiq.com/certificate/" + ids.at(i)
 
@@ -35,7 +44,7 @@
       spacing: 0.5em,
       body-indent: .6em,
       [*Título:* #text(titles.at(i))],
-      [*Técnica:* #text("Impresión de alta calidad sobre papel Modigliani de 260g, libre de ácido con certificación FSC.")],
+      [*Técnica:* #text(technique_es.at(i))],
       [*Código de Identidad Único:* #text(ids.at(i))],
     )
   ]
@@ -50,7 +59,7 @@
       spacing: 0.5em,
       body-indent: .6em,
       [*Title:* #text(titles.at(i))],
-      [*Technique:* #text("High-quality print on 260g Modigliani paper, acid-free with FSC certification.")],
+      [*Technique:* #text(technique_en.at(i))],
       [*Unique Identity Code:* #text(ids.at(i))],
     )
   ]
@@ -61,14 +70,41 @@
     stack(
       dir: ltr, 
       // spacing: 8.2cm,
-      stack(
-        dir: ttb,
-        qr-code(qr_url, width: 2cm),
-        // pad(top: 1em)[
-        //   // te
-        // ]
-      ),
+      rect(
+        // dir: ltr,
+        width: 6.5cm,
+        stroke: 0.0cm,
+        // pad(top: 0em)[
+        //   Escanea este codigo para acceder al registro con información adicional y trazabilidad de la obra a lo largo del tiempo.
+        // ],
+      )[
+        #stack(dir: ltr, spacing: 1fr, 
+          qr-code(qr_url, width: 2cm),
+          // rect(width: 100%)[
+          stack(dir: ttb,
+            rect(width: 3.8cm, stroke: 0.0cm)[
+              #align(left, 
+                text("Escanea este codigo para acceder al registro con información adicional y trazabilidad de la obra a lo largo del tiempo.", size: 5pt, )
+              )
+            ],
+            // line(length: 100%),
+            rect(width: 3.8cm, stroke: 0.0cm)[
+              #align(left, 
+                text("Scan the QR code to access to the record with additional information and artwork traceability over time.", size: 5pt, )
+              )
+            ]
+          )
+          // ]
+        )
+      ],
       h(1fr),
+      rect(
+        stroke: 0.0cm,
+      )[
+        #pad(right: 0.3em)[
+          #image("assets/cc.logo.large.png", width: 1.2cm)
+        ]
+      ],
       context {
         stack(
           dir: ltr,
