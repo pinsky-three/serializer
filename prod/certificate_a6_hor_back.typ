@@ -41,7 +41,7 @@
     *Escanea el QR del Certificado de Identidad para acceder a más información sobre la obra, su concepto y trazabilidad.*
   ]
   
-  line(length: 100%, stroke: 0.5pt, color: black)
+  line(length: 100%, stroke: 0.5pt + gray)
 
   // heading(titles.at(i))
   pad(top: 0.2em)[
