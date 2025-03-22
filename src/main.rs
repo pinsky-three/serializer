@@ -1,8 +1,13 @@
 use drive_v3::Credentials;
 use drive_v3::Drive;
 use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
+use std::env;
 use std::error::Error;
 use std::path::PathBuf;
+use std::process::Command;
+// use std::time::Duration;
+use std::time::Instant;
 
 use uuid::Uuid;
 
@@ -27,6 +32,7 @@ struct InputRow {
     artwork_category: String,
     artwork_image_path: String,
     artwork_format: String,
+    artwork_material: String,
     artwork_orientation: String,
     artwork_technique_es: String,
     artwork_technique_en: String,
@@ -42,6 +48,7 @@ struct OutputRow {
     artwork_category: String,
     artwork_image_path: String,
     artwork_format: String,
+    artwork_material: String,
     artwork_orientation: String,
     artwork_technique_es: String,
     artwork_technique_en: String,
@@ -79,6 +86,8 @@ fn main() -> Result<(), Box<dyn Error>> {
     }
 
     let drive = Drive::new(&credentials);
+
+    let mut materials_count = HashMap::new();
 
     for result in input_csv.deserialize() {
         let record: InputRow = result?;
@@ -134,6 +143,7 @@ fn main() -> Result<(), Box<dyn Error>> {
                 artwork_name: record.artwork_name.clone(),
                 artwork_category: record.artwork_category.clone(),
                 artwork_format: record.artwork_format.clone(),
+                artwork_material: record.artwork_material.clone(),
                 artwork_orientation: record.artwork_orientation.clone(),
                 artwork_technique_es: record.artwork_technique_es.clone(),
                 artwork_technique_en: record.artwork_technique_en.clone(),
@@ -148,10 +158,83 @@ fn main() -> Result<(), Box<dyn Error>> {
             output_csv.serialize(row)?;
         }
 
-        // println!();
+        materials_count
+            .entry((
+                record.artwork_format.clone(),
+                record.artwork_material.clone(),
+            ))
+            .and_modify(|e| *e += record.batch_production)
+            .or_insert(0);
     }
 
     output_csv.flush()?;
 
+    let template_names = vec![
+        "prints_a6_hor.typ",
+        "prints_a6_ver.typ",
+        "prints_a5_hor.typ",
+        "prints_a5_ver.typ",
+        "prints_a4_hor.typ",
+        "prints_a4_ver.typ",
+        "certificate_a6_hor_front.typ",
+        "certificate_a6_hor_back.typ",
+    ];
+
+    let orientations = ["horizontal", "vertical"];
+    let paper_size = ["a6", "a5", "a4"];
+
+    let pairs = materials_count.keys().collect::<Vec<&(String, String)>>();
+
+    println!("pairs: {:?}", pairs);
+
+    for template_name in template_names {
+        let now = Instant::now();
+
+        for material in pairs.clone() {
+            let mut command =
+                compile_typst_command(template_name.to_string(), material.1.to_owned());
+
+            command
+                .spawn()
+                .expect("error at typst running")
+                .wait()
+                .unwrap();
+
+            println!(
+                "Compiled '{}' in: {}ms",
+                template_name,
+                now.elapsed().as_millis()
+            );
+        }
+    }
+
     Ok(())
+}
+
+fn compile_typst_command(input_filename: String, material: String) -> Command {
+    let current_dir = env::current_dir().unwrap();
+
+    let mut command = Command::new("typst");
+
+    let mut filename = PathBuf::from(input_filename.clone());
+
+    filename.set_extension("");
+
+    println!(
+        "Compiling '{}' with material: {}",
+        filename.file_name().unwrap().to_str().unwrap(),
+        material
+    );
+
+    let file_name = filename.file_name().unwrap().to_str().unwrap();
+
+    let compiled_output_path = format!("../prod_output/{}_{}.pdf", file_name, material);
+
+    command.current_dir("prod");
+    command.arg("compile");
+    command.args(["--root", current_dir.to_str().unwrap()]);
+    command.arg(input_filename);
+    command.arg(compiled_output_path);
+
+    command
 }

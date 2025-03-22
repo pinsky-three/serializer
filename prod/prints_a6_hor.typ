@@ -10,7 +10,7 @@
 #let rows = csv(csv_file)
 #let image_multiplier = 100%;
 
-#let artwork =  rows.slice(1).filter(el => el.at(5) == "horizontal" and el.at(4) == "A6").map((row)=> {
+#let artwork =  rows.slice(1).filter(el => el.at(6) == "horizontal" and el.at(4) == "A6").map((row)=> {
     rect(
         width: 100%,
         height: 100%,

@@ -11,7 +11,7 @@
 #let image_width = state("i_width", 0pt)
 #let image_multiplier = 85%;
 
-#let artwork =  rows.slice(1).filter(el => el.at(5) == "vertical" and el.at(4) == "A5").map((row)=> {
+#let artwork =  rows.slice(1).filter(el => el.at(6) == "vertical" and el.at(4) == "A5").map((row)=> {
     rect(
         width: 100%,
         height: 100%,
