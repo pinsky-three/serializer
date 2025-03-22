@@ -6,7 +6,7 @@
   flipped: true,
 )
 
-#set text(font: "Arial", size: 8pt)
+#set text(font: "Poppins", size: 7pt)
 
 #let csv_file = "../output/output.csv"
 
@@ -20,11 +20,11 @@
 })
 
 #let certificates_es = rows.slice(batch_size.at(0), batch_size.at(1)).map((row)=>{
-  text(row.at(8).trim())
+  text(row.at(9).trim())
 })
 
 #let certificates_en = rows.slice(batch_size.at(0), batch_size.at(1)).map((row)=>{
-  text(row.at(9).trim())
+  text(row.at(10).trim())
 })
 
 #let titles = rows.slice(batch_size.at(0), batch_size.at(1)).map((row)=>{
@@ -41,7 +41,7 @@
     *Escanea el QR del Certificado de Identidad para acceder a más información sobre la obra, su concepto y trazabilidad.*
   ]
   
-  line(length: 100%)
+  line(length: 100%, stroke: 0.5pt, color: black)
 
   // heading(titles.at(i))
   pad(top: 0.2em)[

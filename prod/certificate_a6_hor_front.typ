@@ -6,7 +6,7 @@
   flipped: true,
 )
 
-#set text(font: "Arial", size: 8pt)
+#set text(font: "Poppins", size: 7pt)
 
 #let csv_file = "../output/output.csv"
 
@@ -37,8 +37,9 @@
 
 #for i in range(0, certificates.len()) {
   let qr_url = "https://totemiq.com/certificate/" + ids.at(i)
-
+  
   heading("Certificado de Identidad de Obra de Arte")
+  
   pad(top: .5em)[
     #list(
       spacing: 0.5em,
@@ -79,7 +80,7 @@
         // ],
       )[
         #stack(dir: ltr, spacing: 1fr, 
-          qr-code(qr_url, width: 2cm),
+          qr-code("qr_url", width: 2cm),
           // rect(width: 100%)[
           stack(dir: ttb,
             rect(width: 3.8cm, stroke: 0.0cm)[
