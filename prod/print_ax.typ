@@ -1,6 +1,6 @@
 #let material = sys.inputs.at("material", default: "modigliani_260g")
-#let orientation = sys.inputs.at("orientation", default: "vertical")
-#let paper_size = sys.inputs.at("paper_size", default: "a5")
+#let orientation = sys.inputs.at("orientation", default: "horizontal")
+#let paper_size = sys.inputs.at("paper_size", default: "a4")
 
 #set text(font: "Poppins")
 
@@ -17,7 +17,7 @@
 
 #let rows = csv(csv_file)
 #let image_width = state("i_width", 0pt)
-#let image_multiplier = if paper_size == "a6" {100%} else if paper_size == "a5"{85%} else if paper_size == "a4" {88%} else {85%};
+#let image_multiplier = if paper_size == "a6" {100%} else if paper_size == "a5" {if orientation == "horizontal" {85%} else {90%}} else if paper_size == "a4" {if orientation == "horizontal" {85%} else {90%}} else {85%};
 
 #let artwork =  rows.slice(1).filter(el => 
   lower(el.at(6)) == lower(orientation) and 
@@ -54,14 +54,14 @@
       height: 100%,
       inset: 0cm,
     )[
-      #align(center + horizon)[
+      #align(center + bottom)[
         #stack( 
           dir: ttb,
-          rect(stroke: 0.01cm, inset: 0cm)[
+          rect(stroke: 0.0cm, inset: 0cm)[
               #image(row.at(3), width: image_multiplier, fit: "contain") // <image>
           ],
-          pad(x: (100%-image_multiplier)/2, top: 0.3cm)[
-            #rect(width: 100%, stroke: 0.01cm, inset: .2cm, fill: white)[
+          pad(x: (100%-image_multiplier)/2, top: if orientation == "horizontal" {0.2cm} else {0.25cm}, bottom: 0.2cm)[
+            #rect(width: 100%, stroke: 0.0cm, inset: .0cm, fill: white)[
               #align(end + horizon)[
                 #stack(
                   dir: ltr,

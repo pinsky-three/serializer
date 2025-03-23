@@ -227,6 +227,8 @@ fn compile_typst_command(template_input_filename: String, params: PrintTemplateP
     command.args(["--input", format!("material={}", material).as_str()]);
     command.args(["--input", format!("orientation={}", orientation).as_str()]);
     command.args(["--input", format!("paper_size={}", paper_size).as_str()]);
+    command.args(["--font-path", "assets/fonts"]);
+    
     command.arg(template_input_filename);
     command.arg(compiled_output_path);
 
