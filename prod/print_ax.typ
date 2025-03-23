@@ -1,5 +1,3 @@
-
-
 #let material = sys.inputs.at("material", default: "modigliani_260g")
 #let orientation = sys.inputs.at("orientation", default: "vertical")
 #let paper_size = sys.inputs.at("paper_size", default: "a6")
@@ -18,50 +16,76 @@
 
 #let rows = csv(csv_file)
 #let image_width = state("i_width", 0pt)
-#let image_multiplier = 85%;
+#let image_multiplier = if paper_size == "a6" {100%} else {85%};
 
 #let artwork =  rows.slice(1).filter(el => 
   lower(el.at(6)) == lower(orientation) and 
   lower(el.at(4)) == lower(paper_size) and
   lower(el.at(5)) == lower(material)
-).map((row)=> {    
-  rect(
-    width: 100%,
-    height: 100%,
-    inset: 0cm,
-  )[
-    #align(center + horizon)[
-      #stack( 
-        dir: ttb,
-        rect(stroke: 0.0cm, inset: 0cm)[
-            #image(row.at(3), width: image_multiplier, fit: "contain") // <image>
-        ],
-        pad(x: (100%-image_multiplier)/2, top: 0.3cm)[
-          #rect(width: 100%, stroke: 0.0cm, inset: .2cm, fill: white)[
-            #align(end + horizon)[
-              #stack(
-                dir: ltr,
-                align(start + horizon)[
-                  #text(row.at(0), 
-                    fill: gray, 
-                    size: 0.32cm,
-                  )
-                ],
-                context {
-                  stack(
-                    dir: ltr,
-                    spacing: 0.05cm,
-                    image("assets/signature.png", width: page.width*0.07),
-                    image("assets/totemiq_signature.svg", width: page.width*0.07),
-                  )
-                }
-              )
+).map((row)=> {
+  if paper_size == "a6" {
+    rect(
+      width: 100%,
+      height: 100%,
+      inset: 0cm,
+    )[
+      #align(center)[
+        #stack( 
+          dir: ttb,
+          rect(stroke: 0.0cm, inset: 0cm)[
+              #image(row.at(3), width: image_multiplier, fit: "cover") // <image>
+          ],
+          pad(x: .2cm, top: -1.8cm)[
+            #rect(width: 100%, stroke: 0.0cm, inset: .2cm, )[
+              #align(end + horizon)[
+                #stack(
+                  dir: ltr,
+                )
+              ]
             ]
           ]
-        ]
-      )
+        )
+      ]
     ]
-  ]
+  } else {
+    rect(
+      width: 100%,
+      height: 100%,
+      inset: 0cm,
+    )[
+      #align(center + horizon)[
+        #stack( 
+          dir: ttb,
+          rect(stroke: 0.0cm, inset: 0cm)[
+              #image(row.at(3), width: image_multiplier, fit: "contain") // <image>
+          ],
+          pad(x: (100%-image_multiplier)/2, top: 0.3cm)[
+            #rect(width: 100%, stroke: 0.0cm, inset: .2cm, fill: white)[
+              #align(end + horizon)[
+                #stack(
+                  dir: ltr,
+                  align(start + horizon)[
+                    #text(row.at(0), 
+                      fill: gray, 
+                      size: 0.32cm,
+                    )
+                  ],
+                  context {
+                    stack(
+                      dir: ltr,
+                      spacing: 0.05cm,
+                      image("assets/signature.png", width: page.width*0.07),
+                      image("assets/totemiq_signature.svg", width: page.width*0.07),
+                    )
+                  }
+                )
+              ]
+            ]
+          ]
+        )
+      ]
+    ]
+  }
 })
 
 #stack(
