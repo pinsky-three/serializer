@@ -147,9 +147,9 @@ fn main() -> Result<(), Box<dyn Error>> {
 
         artwork_permutations
             .entry(PrintTemplateParams {
-                paper_size: record.artwork_format.clone(),
-                orientation: record.artwork_orientation.clone(),
-                material: record.artwork_material.clone(),
+                paper_size: record.artwork_format.clone().to_lowercase(),
+                orientation: record.artwork_orientation.clone().to_lowercase(),
+                material: record.artwork_material.clone().to_lowercase(),
             })
             .and_modify(|e| *e += record.batch_production)
             .or_insert(0);
@@ -169,7 +169,7 @@ fn compile_typst_template(permutations_count: HashMap<PrintTemplateParams, u32>)
         .keys()
         .collect::<Vec<&PrintTemplateParams>>();
 
-    println!("combinatorics: {:?}", permutations);
+    println!("permutations: {:?}", permutations);
 
     for params in permutations {
         let now = Instant::now();

@@ -33,21 +33,6 @@
               #align(end + horizon)[
                 #stack(
                   dir: ltr,
-                  // align(start + horizon)[
-                  //   #text(row.at(0), 
-                  //     fill: white, 
-                  //     size: 0.32cm,
-                  //   )
-                  // ],
-
-                  // context {
-                  //   stack(
-                  //     dir: ttb,
-                  //     spacing: 0.05cm,
-                  //     image("assets/signature.png", width: page.width*0.07),
-                  //     image("assets/totemiq_signature_white.svg", width: page.width*0.07),
-                  //   )
-                  // }
                 )
               ]
             ]

@@ -1,7 +1,8 @@
 #let material = sys.inputs.at("material", default: "modigliani_260g")
 #let orientation = sys.inputs.at("orientation", default: "vertical")
-#let paper_size = sys.inputs.at("paper_size", default: "a6")
+#let paper_size = sys.inputs.at("paper_size", default: "a5")
 
+#set text(font: "Poppins")
 
 #let flipped = if orientation == "horizontal" {true} else {false}
 
@@ -16,7 +17,7 @@
 
 #let rows = csv(csv_file)
 #let image_width = state("i_width", 0pt)
-#let image_multiplier = if paper_size == "a6" {100%} else {85%};
+#let image_multiplier = if paper_size == "a6" {100%} else if paper_size == "a5"{85%} else if paper_size == "a4" {88%} else {85%};
 
 #let artwork =  rows.slice(1).filter(el => 
   lower(el.at(6)) == lower(orientation) and 
@@ -56,24 +57,24 @@
       #align(center + horizon)[
         #stack( 
           dir: ttb,
-          rect(stroke: 0.0cm, inset: 0cm)[
+          rect(stroke: 0.01cm, inset: 0cm)[
               #image(row.at(3), width: image_multiplier, fit: "contain") // <image>
           ],
           pad(x: (100%-image_multiplier)/2, top: 0.3cm)[
-            #rect(width: 100%, stroke: 0.0cm, inset: .2cm, fill: white)[
+            #rect(width: 100%, stroke: 0.01cm, inset: .2cm, fill: white)[
               #align(end + horizon)[
                 #stack(
                   dir: ltr,
                   align(start + horizon)[
                     #text(row.at(0), 
                       fill: gray, 
-                      size: 0.32cm,
+                      size: 8pt,
                     )
                   ],
                   context {
                     stack(
                       dir: ltr,
-                      spacing: 0.05cm,
+                      spacing: 0.01cm,
                       image("assets/signature.png", width: page.width*0.07),
                       image("assets/totemiq_signature.svg", width: page.width*0.07),
                     )
