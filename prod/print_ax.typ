@@ -2,7 +2,7 @@
 
 #let material = sys.inputs.at("material", default: "modigliani_260g")
 #let orientation = sys.inputs.at("orientation", default: "vertical")
-#let paper_size = sys.inputs.at("paper_size", default: "a5")
+#let paper_size = sys.inputs.at("paper_size", default: "a6")
 
 
 #let flipped = if orientation == "horizontal" {true} else {false}

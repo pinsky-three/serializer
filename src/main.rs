@@ -159,81 +159,98 @@ fn main() -> Result<(), Box<dyn Error>> {
         }
 
         materials_count
-            .entry((
-                record.artwork_format.clone(),
-                record.artwork_material.clone(),
-            ))
+            .entry(PrintTemplateParams {
+                paper_size: record.artwork_format.clone(),
+                orientation: record.artwork_orientation.clone(),
+                material: record.artwork_material.clone(),
+            })
             .and_modify(|e| *e += record.batch_production)
             .or_insert(0);
     }
 
     output_csv.flush()?;
 
-    let template_names = vec![
-        "prints_a6_hor.typ",
-        "prints_a6_ver.typ",
-        "prints_a5_hor.typ",
-        "prints_a5_ver.typ",
-        "prints_a4_hor.typ",
-        "prints_a4_ver.typ",
-        "certificate_a6_hor_front.typ",
-        "certificate_a6_hor_back.typ",
-    ];
+    // let template_names = vec![
+    //     "prints_a6_hor.typ",
+    //     "prints_a6_ver.typ",
+    //     "prints_a5_hor.typ",
+    //     "prints_a5_ver.typ",
+    //     "prints_a4_hor.typ",
+    //     "prints_a4_ver.typ",
+    //     "certificate_a6_hor_front.typ",
+    //     "certificate_a6_hor_back.typ",
+    // ];
 
-    let orientations = ["horizontal", "vertical"];
-    let paper_size = ["a6", "a5", "a4"];
+    let template_name = "print_ax.typ";
 
-    let pairs = materials_count.keys().collect::<Vec<&(String, String)>>();
+    // let orientations = ["horizontal", "vertical"];
+    // let paper_size = ["a6", "a5", "a4"];
 
-    println!("pairs: {:?}", pairs);
+    let combinatorics = materials_count
+        .keys()
+        .collect::<Vec<&PrintTemplateParams>>();
 
-    for template_name in template_names {
+    println!("combinatorics: {:?}", combinatorics);
+
+    for params in combinatorics {
         let now = Instant::now();
 
-        for material in pairs.clone() {
-            let mut command =
-                compile_typst_command(template_name.to_string(), material.1.to_owned());
+        let mut command = compile_typst_command(template_name.to_string(), params.to_owned());
 
-            command
-                .spawn()
-                .expect("error at typst running")
-                .wait()
-                .unwrap();
+        command
+            .spawn()
+            .expect("error at typst running")
+            .wait()
+            .unwrap();
 
-            println!(
-                "Compiled '{}' in: {}ms",
-                template_name,
-                now.elapsed().as_millis()
-            );
-        }
+        println!(
+            "Compiled '{}' in: {}ms",
+            template_name,
+            now.elapsed().as_millis()
+        );
     }
 
     Ok(())
 }
 
-fn compile_typst_command(input_filename: String, material: String) -> Command {
+#[derive(Debug, PartialEq, Eq, Hash, Clone)]
+struct PrintTemplateParams {
+    paper_size: String,
+    orientation: String,
+    material: String,
+}
+
+fn compile_typst_command(template_input_filename: String, params: PrintTemplateParams) -> Command {
     let current_dir = env::current_dir().unwrap();
 
     let mut command = Command::new("typst");
 
-    let mut filename = PathBuf::from(input_filename.clone());
+    let mut filename = PathBuf::from(template_input_filename.clone());
 
     filename.set_extension("");
 
     println!(
-        "Compiling '{}' with material: {}",
-        filename.file_name().unwrap().to_str().unwrap(),
-        material
+        "Compiling '{}' with params: {:?}",
+        template_input_filename, params
     );
 
     let file_name = filename.file_name().unwrap().to_str().unwrap();
 
-    let compiled_output_path = format!("../prod_output/{}_{}.pdf", file_name, material);
+    let material = params.material;
+    let orientation = params.orientation;
+    let paper_size = params.paper_size;
+
+    let params_suffix = [paper_size.clone(), material.clone(), orientation.clone()].join("_");
+
+    let compiled_output_path = format!("../prod_output/{}_{}.pdf", file_name, params_suffix);
 
     command.current_dir("prod");
     command.arg("compile");
     command.args(["--root", current_dir.to_str().unwrap()]);
-    command.arg(input_filename);
+    command.args(["--input", format!("material={}", material).as_str()]);
+    command.args(["--input", format!("orientation={}", orientation).as_str()]);
+    command.args(["--input", format!("paper_size={}", paper_size).as_str()]);
+    command.arg(template_input_filename);
     command.arg(compiled_output_path);
 
     command
