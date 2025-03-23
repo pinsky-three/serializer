@@ -11,19 +11,6 @@ use std::time::Instant;
 
 use uuid::Uuid;
 
-// #[derive(Debug, Deserialize, Serialize, Clone)]
-// struct ArtworkData {
-//     artwork_name: String,
-//     artwork_category: String,
-//     artwork_image_path: String,
-//     artwork_format: String,
-//     artwork_orientation: String,
-//     artwork_technique_es: String,
-//     artwork_technique_en: String,
-//     artwork_short_description_es: String,
-//     artwork_short_description_en: String,
-// }
-
 #[derive(Debug, Deserialize, Clone)]
 struct InputRow {
     batch_production: u32,
@@ -170,21 +157,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     output_csv.flush()?;
 
-    // let template_names = vec![
-    //     "prints_a6_hor.typ",
-    //     "prints_a6_ver.typ",
-    //     "prints_a5_hor.typ",
-    //     "prints_a5_ver.typ",
-    //     "prints_a4_hor.typ",
-    //     "prints_a4_ver.typ",
-    //     "certificate_a6_hor_front.typ",
-    //     "certificate_a6_hor_back.typ",
-    // ];
-
     let template_name = "print_ax.typ";
-
-    // let orientations = ["horizontal", "vertical"];
-    // let paper_size = ["a6", "a5", "a4"];
 
     let combinatorics = materials_count
         .keys()
