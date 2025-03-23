@@ -74,7 +74,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     let drive = Drive::new(&credentials);
 
-    let mut materials_count = HashMap::new();
+    let mut artwork_permutations = HashMap::new();
 
     for result in input_csv.deserialize() {
         let record: InputRow = result?;
@@ -145,7 +145,7 @@ fn main() -> Result<(), Box<dyn Error>> {
             output_csv.serialize(row)?;
         }
 
-        materials_count
+        artwork_permutations
             .entry(PrintTemplateParams {
                 paper_size: record.artwork_format.clone(),
                 orientation: record.artwork_orientation.clone(),
@@ -157,15 +157,21 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     output_csv.flush()?;
 
+    compile_typst_template(artwork_permutations);
+
+    Ok(())
+}
+
+fn compile_typst_template(permutations_count: HashMap<PrintTemplateParams, u32>) {
     let template_name = "print_ax.typ";
 
-    let combinatorics = materials_count
+    let permutations = permutations_count
         .keys()
         .collect::<Vec<&PrintTemplateParams>>();
 
-    println!("combinatorics: {:?}", combinatorics);
+    println!("combinatorics: {:?}", permutations);
 
-    for params in combinatorics {
+    for params in permutations {
         let now = Instant::now();
 
         let mut command = compile_typst_command(template_name.to_string(), params.to_owned());
@@ -182,8 +188,6 @@ fn main() -> Result<(), Box<dyn Error>> {
             now.elapsed().as_millis()
         );
     }
-
-    Ok(())
 }
 
 #[derive(Debug, PartialEq, Eq, Hash, Clone)]
