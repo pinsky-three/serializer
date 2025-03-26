@@ -1,6 +1,6 @@
 #let material = sys.inputs.at("material", default: "modigliani_260g")
 #let orientation = sys.inputs.at("orientation", default: "horizontal")
-#let paper_size = sys.inputs.at("paper_size", default: "a4")
+#let paper_size = sys.inputs.at("paper_size", default: "a6")
 
 #set text(font: "Poppins")
 
@@ -26,26 +26,13 @@
 ).map((row)=> {
   if paper_size == "a6" {
     rect(
-      width: 100%,
-      height: 100%,
+      width: 101%,
+      height: 101%,
       inset: 0cm,
+      stroke: none,
     )[
       #align(center)[
-        #stack( 
-          dir: ttb,
-          rect(stroke: 0.0cm, inset: 0cm)[
-              #image(row.at(3), width: image_multiplier, fit: "cover") // <image>
-          ],
-          pad(x: .2cm, top: -1.8cm)[
-            #rect(width: 100%, stroke: 0.0cm, inset: .2cm, )[
-              #align(end + horizon)[
-                #stack(
-                  dir: ltr,
-                )
-              ]
-            ]
-          ]
-        )
+        #image(row.at(3), width: image_multiplier, fit: "cover") // <image>
       ]
     ]
   } else {
@@ -53,6 +40,7 @@
       width: 100%,
       height: 100%,
       inset: 0cm,
+      stroke: none,
     )[
       #align(center + bottom)[
         #stack( 
@@ -67,14 +55,14 @@
                   dir: ltr,
                   align(start + horizon)[
                     #text(row.at(0), 
-                      fill: gray, 
-                      size: 8pt,
+                      fill: gray.darken(24%), 
+                      size: 10pt,
                     )
                   ],
                   context {
                     stack(
                       dir: ltr,
-                      spacing: 0.01cm,
+                      spacing: 0.02cm,
                       image("assets/signature.png", width: page.width*0.07),
                       image("assets/totemiq_signature.svg", width: page.width*0.07),
                     )
