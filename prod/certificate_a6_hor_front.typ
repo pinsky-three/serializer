@@ -19,24 +19,21 @@
   row.at(0).trim()
 })
 
-#let certificates = rows.slice(batch_size.at(0), batch_size.at(1)).map((row)=>{
-  text(row.at(8).trim())
-})
 
 #let titles = rows.slice(batch_size.at(0), batch_size.at(1)).map((row)=>{
   text(row.at(1).trim())
 })
 
 #let technique_es = rows.slice(batch_size.at(0), batch_size.at(1)).map((row)=>{
-  text(row.at(6).trim())
-})
-
-#let technique_en = rows.slice(batch_size.at(0), batch_size.at(1)).map((row)=>{
   text(row.at(7).trim())
 })
 
-#for i in range(0, certificates.len()) {
-  let qr_url = "https://totemiq.com/certificate/" + ids.at(i)
+#let technique_en = rows.slice(batch_size.at(0), batch_size.at(1)).map((row)=>{
+  text(row.at(8).trim())
+})
+
+#for i in range(0, ids.len()) {
+  let qr_url = "https://totemiq.art/certificate/" + ids.at(i)
   
   heading("Certificado de Identidad de Obra de Arte")
   
