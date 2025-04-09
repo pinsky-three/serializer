@@ -157,7 +157,6 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     output_csv.flush()?;
 
-    
     compile_typst_template("print_ax.typ".to_string(), artwork_permutations);
     compile_typst_template_simple("certificate_a6_hor_front.typ".to_string());
     compile_typst_template_simple("certificate_a6_hor_back.typ".to_string());
@@ -165,7 +164,10 @@ fn main() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-fn compile_typst_template(template_name: String, permutations_count: HashMap<PrintTemplateParams, u32>) {
+fn compile_typst_template(
+    template_name: String,
+    permutations_count: HashMap<PrintTemplateParams, u32>,
+) {
     let permutations = permutations_count
         .keys()
         .collect::<Vec<&PrintTemplateParams>>();
@@ -196,7 +198,8 @@ fn compile_typst_template_simple(template_name: String) {
 
     let mut command = compile_typst_command_simple(template_name.to_string());
 
-    command.spawn()
+    command
+        .spawn()
         .expect("error at typst running")
         .wait()
         .unwrap();
@@ -207,7 +210,6 @@ fn compile_typst_template_simple(template_name: String) {
         now.elapsed().as_millis()
     );
 }
-
 
 #[derive(Debug, PartialEq, Eq, Hash, Clone)]
 struct PrintTemplateParams {
@@ -247,7 +249,7 @@ fn compile_typst_command(template_input_filename: String, params: PrintTemplateP
     command.args(["--input", format!("orientation={}", orientation).as_str()]);
     command.args(["--input", format!("paper_size={}", paper_size).as_str()]);
     command.args(["--font-path", "assets/fonts"]);
-    
+
     command.arg(template_input_filename);
     command.arg(compiled_output_path);
 
