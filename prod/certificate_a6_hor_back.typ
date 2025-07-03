@@ -1,4 +1,4 @@
-#import "@preview/cades:0.3.0": qr-code
+// #import "@preview/tiaoma:0.3.0"
 
 #set page(
   paper: "a6",

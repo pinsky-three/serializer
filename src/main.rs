@@ -1,5 +1,7 @@
 use drive_v3::Credentials;
 use drive_v3::Drive;
+// use itertools::repeat_n;
+// use itertools::Itertools;
 use serde::{Deserialize, Serialize};
 use std::error::Error;
 use std::path::PathBuf;
@@ -32,6 +34,7 @@ struct InputRow {
     artwork_technique_en: String,
     artwork_short_description_es: String,
     artwork_short_description_en: String,
+    qr_link: String,
 }
 
 #[derive(Debug, Serialize, Clone)]
@@ -47,6 +50,7 @@ struct OutputRow {
     artwork_technique_en: String,
     artwork_short_description_es: String,
     artwork_short_description_en: String,
+    qr_link: String,
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
@@ -79,6 +83,12 @@ fn main() -> Result<(), Box<dyn Error>> {
     }
 
     let drive = Drive::new(&credentials);
+
+    // let b = input_csv
+    //     .deserialize()
+    //     .map(|a: Result<InputRow, csv::Error>| a.unwrap())
+    //     .map(|a| (a.batch_production, a))
+    //     .collect::<Vec<(u32, InputRow)>>();
 
     for result in input_csv.deserialize() {
         let record: InputRow = result?;
@@ -139,6 +149,7 @@ fn main() -> Result<(), Box<dyn Error>> {
                 artwork_technique_en: record.artwork_technique_en.clone(),
                 artwork_short_description_es: record.artwork_short_description_es.clone(),
                 artwork_short_description_en: record.artwork_short_description_en.clone(),
+                qr_link: record.qr_link.clone(),
             };
 
             if file_image_path.extension().unwrap() == "tif" {

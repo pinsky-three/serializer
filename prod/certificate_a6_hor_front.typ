@@ -1,4 +1,4 @@
-#import "@preview/cades:0.3.0": qr-code
+#import "@preview/tiaoma:0.3.0"
 
 #set page(
   paper: "a6",
@@ -79,7 +79,7 @@
         // ],
       )[
         #stack(dir: ltr, spacing: 1fr, 
-          qr-code(qr_url, width: 2cm),
+          tiaoma.qrcode(qr_url, width: 2cm),
           // rect(width: 100%)[
           stack(dir: ttb,
             rect(width: 3.8cm, stroke: 0.0cm)[
