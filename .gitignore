@@ -2,3 +2,5 @@
 .DS_Store
 credentials
 output
+prod_output
+prod_output.zip

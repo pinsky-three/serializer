@@ -3,23 +3,15 @@ use drive_v3::Drive;
 // use itertools::repeat_n;
 // use itertools::Itertools;
 use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
+use std::env;
 use std::error::Error;
 use std::path::PathBuf;
+use std::process::Command;
+// use std::time::Duration;
+use std::time::Instant;
 
 use uuid::Uuid;
-
-// #[derive(Debug, Deserialize, Serialize, Clone)]
-// struct ArtworkData {
-//     artwork_name: String,
-//     artwork_category: String,
-//     artwork_image_path: String,
-//     artwork_format: String,
-//     artwork_orientation: String,
-//     artwork_technique_es: String,
-//     artwork_technique_en: String,
-//     artwork_short_description_es: String,
-//     artwork_short_description_en: String,
-// }
 
 #[derive(Debug, Deserialize, Clone)]
 struct InputRow {
@@ -29,6 +21,7 @@ struct InputRow {
     artwork_category: String,
     artwork_image_path: String,
     artwork_format: String,
+    artwork_material: String,
     artwork_orientation: String,
     artwork_technique_es: String,
     artwork_technique_en: String,
@@ -45,6 +38,7 @@ struct OutputRow {
     artwork_category: String,
     artwork_image_path: String,
     artwork_format: String,
+    artwork_material: String,
     artwork_orientation: String,
     artwork_technique_es: String,
     artwork_technique_en: String,
@@ -84,11 +78,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     let drive = Drive::new(&credentials);
 
-    // let b = input_csv
-    //     .deserialize()
-    //     .map(|a: Result<InputRow, csv::Error>| a.unwrap())
-    //     .map(|a| (a.batch_production, a))
-    //     .collect::<Vec<(u32, InputRow)>>();
+    let mut artwork_permutations = HashMap::new();
 
     for result in input_csv.deserialize() {
         let record: InputRow = result?;
@@ -144,6 +134,7 @@ fn main() -> Result<(), Box<dyn Error>> {
                 artwork_name: record.artwork_name.clone(),
                 artwork_category: record.artwork_category.clone(),
                 artwork_format: record.artwork_format.clone(),
+                artwork_material: record.artwork_material.clone(),
                 artwork_orientation: record.artwork_orientation.clone(),
                 artwork_technique_es: record.artwork_technique_es.clone(),
                 artwork_technique_en: record.artwork_technique_en.clone(),
@@ -159,10 +150,138 @@ fn main() -> Result<(), Box<dyn Error>> {
             output_csv.serialize(row)?;
         }
 
-        // println!();
+        artwork_permutations
+            .entry(PrintTemplateParams {
+                paper_size: record.artwork_format.clone().to_lowercase(),
+                orientation: record.artwork_orientation.clone().to_lowercase(),
+                material: record.artwork_material.clone().to_lowercase(),
+            })
+            .and_modify(|e| *e += record.batch_production)
+            .or_insert(0);
     }
 
     output_csv.flush()?;
 
+    compile_typst_template("print_ax.typ".to_string(), artwork_permutations);
+    compile_typst_template_simple("certificate_a6_hor_front.typ".to_string());
+    compile_typst_template_simple("certificate_a6_hor_back.typ".to_string());
+
     Ok(())
+}
+
+fn compile_typst_template(
+    template_name: String,
+    permutations_count: HashMap<PrintTemplateParams, u32>,
+) {
+    let permutations = permutations_count
+        .keys()
+        .collect::<Vec<&PrintTemplateParams>>();
+
+    println!("permutations: {:?}", permutations);
+
+    for params in permutations {
+        let now = Instant::now();
+
+        let mut command = compile_typst_command(template_name.to_string(), params.to_owned());
+
+        command
+            .spawn()
+            .expect("error at typst running")
+            .wait()
+            .unwrap();
+
+        println!(
+            "Compiled '{}' in: {}ms",
+            template_name,
+            now.elapsed().as_millis()
+        );
+    }
+}
+
+fn compile_typst_template_simple(template_name: String) {
+    let now = Instant::now();
+
+    let mut command = compile_typst_command_simple(template_name.to_string());
+
+    command
+        .spawn()
+        .expect("error at typst running")
+        .wait()
+        .unwrap();
+
+    println!(
+        "Compiled '{}' in: {}ms",
+        template_name,
+        now.elapsed().as_millis()
+    );
+}
+
+#[derive(Debug, PartialEq, Eq, Hash, Clone)]
+struct PrintTemplateParams {
+    paper_size: String,
+    orientation: String,
+    material: String,
+}
+
+fn compile_typst_command(template_input_filename: String, params: PrintTemplateParams) -> Command {
+    let current_dir = env::current_dir().unwrap();
+
+    let mut command = Command::new("typst");
+
+    let mut filename = PathBuf::from(template_input_filename.clone());
+
+    filename.set_extension("");
+
+    println!(
+        "Compiling '{}' with params: {:?}",
+        template_input_filename, params
+    );
+
+    let file_name = filename.file_name().unwrap().to_str().unwrap();
+
+    let material = params.material;
+    let orientation = params.orientation;
+    let paper_size = params.paper_size;
+
+    let params_suffix = [paper_size.clone(), material.clone(), orientation.clone()].join("_");
+
+    let compiled_output_path = format!("../prod_output/{}_{}.pdf", file_name, params_suffix);
+
+    command.current_dir("prod");
+    command.arg("compile");
+    command.args(["--root", current_dir.to_str().unwrap()]);
+    command.args(["--input", format!("material={}", material).as_str()]);
+    command.args(["--input", format!("orientation={}", orientation).as_str()]);
+    command.args(["--input", format!("paper_size={}", paper_size).as_str()]);
+    command.args(["--font-path", "assets/fonts"]);
+
+    command.arg(template_input_filename);
+    command.arg(compiled_output_path);
+
+    command
+}
+
+fn compile_typst_command_simple(template_input_filename: String) -> Command {
+    let current_dir = env::current_dir().unwrap();
+
+    let mut command = Command::new("typst");
+
+    let mut filename = PathBuf::from(template_input_filename.clone());
+
+    filename.set_extension("");
+
+    println!("Compiling '{}'", template_input_filename);
+
+    let file_name = filename.file_name().unwrap().to_str().unwrap();
+
+    let compiled_output_path = format!("../prod_output/{}.pdf", file_name);
+
+    command.current_dir("prod");
+    command.arg("compile");
+    command.args(["--root", current_dir.to_str().unwrap()]);
+    command.args(["--font-path", "assets/fonts"]);
+    command.arg(template_input_filename);
+    command.arg(compiled_output_path);
+
+    command
 }
