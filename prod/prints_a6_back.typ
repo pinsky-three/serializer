@@ -45,6 +45,7 @@
             top: 0.3cm,
             grid(
               columns: (1fr, auto, 1fr),
+              align: horizon,
               stack(
                 spacing: 0.5cm,
                 text(description_es, size: 7pt, fill: gray.darken(45%), weight: 400),
@@ -52,7 +53,7 @@
               ),
               pad(
                 x: 0.5cm, 
-                line(end: (0%, 100%), stroke: 0.01cm)
+                line(start: (0%, 5%), end: (0%, 100%), stroke: 0.01cm)
               ),
               stack(
                 spacing: 0.5cm,
@@ -70,17 +71,17 @@
                   line(length: 100%, stroke: 0.01cm),
                 ),
                 v(1fr),
-                stack(dir: ltr, spacing: 7pt, 
+                stack(dir: ltr, spacing: 5pt, 
                   tiaoma.qrcode(qr_link, width: 2cm),
                   stack(dir: ttb,
                     rect(width: 3.8cm, stroke: 0.0cm)[
                       #align(left, 
-                        text("Escanea este codigo para acceder al registro con información adicional y trazabilidad de la obra a lo largo del tiempo.", size: 5pt)
+                        text("Para interactuar con la pieza en realidad aumentada o conocer más sobre el proyecto y la trazabilidad de esta obra, escanea este código.", size: 5pt)
                       )
                     ],
                     rect(width: 3.8cm, stroke: 0.0cm)[
                       #align(left, 
-                        text("Scan the QR code to access to the record with additional information and artwork traceability over time.", size: 5pt)
+                        text("To interact with the piece in augmented reality or learn more about the project and the traceability of this artwork, scan this code.", size: 5pt)
                       )
                     ]
                   )
