@@ -17,9 +17,9 @@
 #let artwork =  rows.slice(1).filter(el => el.at(4) == "A6").map((row)=> {
   // let id = row.at(0);
   let title = row.at(1);
-  let description_es = row.at(8);
-  let description_en = row.at(9);
-  let qr_link = row.at(10);
+  let description_es = row.at(9);
+  let description_en = row.at(10);
+  let qr_link = row.at(11);
 
   // let qr_url = "https://ar.totemiq.art/" + row.at(0);
 
