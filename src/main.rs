@@ -103,7 +103,11 @@ fn main() -> Result<(), Box<dyn Error>> {
                     .execute();
 
                 if res.is_err() {
-                    println!("Error downloading file: {:?}", res.err());
+                    println!(
+                        "Error downloading file: '{}' with error: {:?}",
+                        file_name,
+                        res.err()
+                    );
                     continue;
                 }
 
@@ -162,6 +166,10 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     output_csv.flush()?;
 
+    std::fs::create_dir_all("prod_output").unwrap_or_else(|_| {
+        println!("Error creating directory: prod_output");
+    });
+
     compile_typst_template("print_ax.typ".to_string(), artwork_permutations);
     compile_typst_template_simple("certificate_a6_hor_front.typ".to_string());
     compile_typst_template_simple("certificate_a6_hor_back.typ".to_string());
@@ -183,6 +191,8 @@ fn compile_typst_template(
         let now = Instant::now();
 
         let mut command = compile_typst_command(template_name.to_string(), params.to_owned());
+
+        println!("command: {:?}", command);
 
         command
             .spawn()

@@ -15,28 +15,45 @@
 #let batch_size = (1, rows.len())
 // #let batch_size = (1, 10)
 
-#let ids = rows.slice(batch_size.at(0), batch_size.at(1)).map((row)=>{
-  row.at(0).trim()
-})
+#let ids = (
+  rows
+    .slice(batch_size.at(0), batch_size.at(1))
+    .map(row => {
+      row.at(0).trim()
+    })
+)
 
 
-#let titles = rows.slice(batch_size.at(0), batch_size.at(1)).map((row)=>{
-  text(row.at(1).trim())
-})
+#let titles = (
+  rows
+    .slice(batch_size.at(0), batch_size.at(1))
+    .map(row => {
+      text(row.at(1).trim())
+    })
+)
 
-#let technique_es = rows.slice(batch_size.at(0), batch_size.at(1)).map((row)=>{
-  text(row.at(7).trim())
-})
+#let technique_es = (
+  rows
+    .slice(batch_size.at(0), batch_size.at(1))
+    .map(row => {
+      text(row.at(7).trim())
+    })
+)
 
-#let technique_en = rows.slice(batch_size.at(0), batch_size.at(1)).map((row)=>{
-  text(row.at(8).trim())
-})
+#let technique_en = (
+  rows
+    .slice(batch_size.at(0), batch_size.at(1))
+    .map(row => {
+      text(row.at(8).trim())
+    })
+)
 
 #for i in range(0, ids.len()) {
   let qr_url = "https://totemiq.art/certificate/" + ids.at(i)
-  
+  qr_url = str(qr_url)
+
   heading("Certificado de Identidad de Obra de Arte")
-  
+
   pad(top: .5em)[
     #list(
       spacing: 0.5em,
@@ -63,10 +80,11 @@
   ]
 
   [This code serves as the digital fingerprint of the piece. Generated using UUIDv7 technology, it ensures its uniqueness, non-reproducibility, and traceability over time.]
-  
-  align(end+bottom, 
+
+  align(
+    end + bottom,
     stack(
-      dir: ltr, 
+      dir: ltr,
       // spacing: 8.2cm,
       rect(
         // dir: ltr,
@@ -76,22 +94,34 @@
         //   Escanea este codigo para acceder al registro con información adicional y trazabilidad de la obra a lo largo del tiempo.
         // ],
       )[
-        #stack(dir: ltr, spacing: 1fr, 
+        #stack(
+          dir: ltr,
+          spacing: 1fr,
+          // tiaoma.qrcode("https://totemiq.art/certificate", width: 2cm),
           tiaoma.qrcode(qr_url, width: 2cm),
           // rect(width: 100%)[
-          stack(dir: ttb,
+          stack(
+            dir: ttb,
             rect(width: 3.8cm, stroke: 0.0cm)[
-              #align(left, 
-                text("Escanea este codigo para acceder al registro con información adicional y trazabilidad de la obra a lo largo del tiempo.", size: 5pt, )
+              #align(
+                left,
+                text(
+                  "Escanea este codigo para acceder al registro con información adicional y trazabilidad de la obra a lo largo del tiempo.",
+                  size: 5pt,
+                ),
               )
             ],
             // line(length: 100%),
             rect(width: 3.8cm, stroke: 0.0cm)[
-              #align(left, 
-                text("Scan the QR code to access to the record with additional information and artwork traceability over time.", size: 5pt, )
+              #align(
+                left,
+                text(
+                  "Scan the QR code to access to the record with additional information and artwork traceability over time.",
+                  size: 5pt,
+                ),
               )
-            ]
-          )
+            ],
+          ),
           // ]
         )
       ],
@@ -104,15 +134,13 @@
         ]
       ],
       context {
-        stack(
-          dir: ltr,
-          spacing: 1em,
-          image("assets/signature.png", width: page.width*0.11),
-          image("assets/totemiq_signature.svg", width: page.width*0.12),
-        )
+        stack(dir: ltr, spacing: 1em, image("assets/signature.png", width: page.width * 0.11), image(
+          "assets/totemiq_signature.svg",
+          width: page.width * 0.12,
+        ))
       },
-    )
-  ) 
-  
+    ),
+  )
+
   pagebreak()
 }
