@@ -2,10 +2,10 @@
 
 #set page(
   paper: "a6",
-  margin: .82cm,
+  margin: .56cm,
   flipped: true,
 )
-
+#set align(horizon)
 #set text(font: "Poppins", size: 7pt)
 
 #let csv_file = "../output/output.csv"
@@ -60,13 +60,15 @@
       body-indent: .6em,
       [*Título:* #text(titles.at(i))],
       [*Técnica:* #text(technique_es.at(i))],
-      [*Código de Identidad Único:* #text(ids.at(i))],
+      [*Autor:* Totemiq, proyecto colectivo liderado por la artista Berenice Díaz en colaboración con una red viva de entidades, investigadores y comunidades.],
+      [*Código de Identidad Único:* #text(ids.at(i), weight: "semibold")],
     )
   ]
 
-  [El Código de Identidad Único es la huella digital de la pieza. Generado con tecnología UUIDv7, lo hace único, irrepetible y trazable en el tiempo.]
 
-  line(length: 100%)
+  pad()[El Código de Identidad Único es la huella digital de la pieza. Generado con tecnología UUIDv7, lo hace único, irrepetible y trazable en el tiempo.]
+
+  line(length: 100%, stroke: 0.01cm)
 
   heading("Certificate of Artwork Identity")
   pad(top: .5em)[
@@ -75,14 +77,15 @@
       body-indent: .6em,
       [*Title:* #text(titles.at(i))],
       [*Technique:* #text(technique_en.at(i))],
-      [*Unique Identity Code:* #text(ids.at(i))],
+      [*Author:* Totemiq, a collective project led by the artist Berenice Díaz, in collaboration with a living network of institutions, researchers, and communities.],
+      [*Unique Identity Code:* #text(ids.at(i), weight: "semibold")],
     )
   ]
 
   [This code serves as the digital fingerprint of the piece. Generated using UUIDv7 technology, it ensures its uniqueness, non-reproducibility, and traceability over time.]
 
   align(
-    end + bottom,
+    bottom,
     stack(
       dir: ltr,
       // spacing: 8.2cm,
@@ -122,22 +125,19 @@
               )
             ],
           ),
-          // ]
         )
       ],
       h(1fr),
-      rect(
-        stroke: 0.0cm,
-      )[
-        #pad(right: 0.3em)[
-          #image("assets/cc.logo.large.png", width: 1.2cm)
-        ]
-      ],
       context {
-        stack(dir: ltr, spacing: 1em, image("assets/signature.png", width: page.width * 0.11), image(
-          "assets/totemiq_signature.svg",
-          width: page.width * 0.12,
-        ))
+        align(horizon)[
+          #stack(
+            dir: ltr,
+            spacing: 1em,
+            image("assets/cc.logo.large.png", width: 1.2cm),
+            image("assets/signature.png", width: page.width * 0.11),
+            image("assets/totemiq_signature.svg", width: page.width * 0.12),
+          )
+        ]
       },
     ),
   )

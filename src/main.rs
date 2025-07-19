@@ -87,6 +87,8 @@ fn main() -> Result<(), Box<dyn Error>> {
             // extract "1pyOzBeKhHDnI7Baf8RRPDLEgA2sJXGhT"
             // from "https://drive.google.com/file/d/1pyOzBeKhHDnI7Baf8RRPDLEgA2sJXGhT/view?usp=drive_link"
 
+            // println!("record.artwork_image_path: {}", record.artwork_image_path);
+
             let id = record.artwork_image_path.split("/").nth(5).unwrap();
 
             let file = drive.files.get(id).execute().unwrap();
@@ -120,6 +122,7 @@ fn main() -> Result<(), Box<dyn Error>> {
                     || (record.artwork_orientation == "vertical" && ratio > 1.0)
                 {
                     img.rotate270().save(&file_image_path).unwrap();
+                    // println!("rotated: {}", file_image_path.display());
                 }
             }
 
