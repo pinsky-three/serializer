@@ -2,7 +2,7 @@
 
 #set page(
   paper: "a6",
-  margin: .82cm,
+  margin: .56cm,
   flipped: true,
 )
 

@@ -132,10 +132,10 @@
         align(horizon)[
           #stack(
             dir: ltr,
-            spacing: 1em,
-            image("assets/cc.logo.large.png", width: 1.2cm),
+            spacing: -1.0em,
+            // image("assets/cc.logo.large.png", width: 1.2cm),
             image("assets/signature.png", width: page.width * 0.11),
-            image("assets/totemiq_signature.svg", width: page.width * 0.12),
+            image("assets/totemiq_logo_mono_name.png", width: page.width * 0.3),
           )
         ]
       },
